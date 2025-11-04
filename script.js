@@ -1,3 +1,10 @@
+// Import and initialize liquid glass buttons
+let buttonInstances = {
+    hero: [],
+    projects: [],
+    contact: []
+};
+
 // Smooth scroll animation observer
 const observerOptions = {
     threshold: 0.1,
@@ -14,6 +21,8 @@ const animateOnScroll = new IntersectionObserver((entries) => {
 
 // Observe all elements with animate-on-scroll class
 document.addEventListener('DOMContentLoaded', () => {
+    initializeLiquidGlassButtons();
+
     const elements = document.querySelectorAll('.animate-on-scroll');
     elements.forEach(el => animateOnScroll.observe(el));
 
@@ -49,43 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (liquidBg) {
             liquidBg.style.transform = `translateY(${scrolled * 0.5}px)`;
         }
-    });
-
-    // Add hover effect to skill cards
-    const skillCards = document.querySelectorAll('.skill-category');
-
-    skillCards.forEach(card => {
-        card.addEventListener('mouseenter', (e) => {
-            const icon = card.querySelector('.skill-icon');
-            if (icon) {
-                icon.style.transform = 'scale(1.2) rotate(5deg)';
-                icon.style.transition = 'transform 0.3s ease';
-            }
-        });
-
-        card.addEventListener('mouseleave', (e) => {
-            const icon = card.querySelector('.skill-icon');
-            if (icon) {
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            }
-        });
-    });
-
-    // Add magnetic effect to buttons
-    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .contact-btn');
-
-    buttons.forEach(button => {
-        button.addEventListener('mousemove', (e) => {
-            const rect = button.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-        });
-
-        button.addEventListener('mouseleave', () => {
-            button.style.transform = 'translate(0, 0)';
-        });
     });
 
     // Enhanced glass card interactions
@@ -202,6 +174,244 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
 });
 
+/**
+ * Initialize Liquid Glass Buttons
+ * Creates glass buttons using the liquid-glass-js library
+ */
+function initializeLiquidGlassButtons() {
+    // Check if liquid glass library is loaded
+    if (typeof Container === 'undefined' || typeof Button === 'undefined') {
+        console.warn('Liquid Glass library not loaded. Using fallback buttons.');
+        createFallbackButtons();
+        return;
+    }
+
+    // Hero CTA Buttons
+    const heroButtonsContainer = document.getElementById('heroButtons');
+    if (heroButtonsContainer) {
+        const viewProjectsBtn = new Button({
+            text: 'View Projects',
+            size: 20,
+            type: 'pill',
+            tintOpacity: 0.3,
+            onClick: () => {
+                const projectsSection = document.getElementById('projects');
+                projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        const githubBtn = new Button({
+            text: 'GitHub Profile',
+            size: 20,
+            type: 'pill',
+            tintOpacity: 0.3,
+            onClick: () => {
+                window.open('https://github.com/yourusername', '_blank');
+            }
+        });
+
+        heroButtonsContainer.appendChild(viewProjectsBtn.element);
+        heroButtonsContainer.appendChild(githubBtn.element);
+
+        buttonInstances.hero = [viewProjectsBtn, githubBtn];
+    }
+
+    // Project Buttons
+    const projectButtons = document.querySelectorAll('.project-buttons');
+    projectButtons.forEach((container, index) => {
+        const viewBtn = new Button({
+            text: '→ View',
+            size: 16,
+            type: 'pill',
+            tintOpacity: 0.4,
+            onClick: () => {
+                alert('Project link would open here');
+            }
+        });
+
+        const githubProjectBtn = new Button({
+            text: '★ GitHub',
+            size: 16,
+            type: 'pill',
+            tintOpacity: 0.4,
+            onClick: () => {
+                alert('GitHub repository link would open here');
+            }
+        });
+
+        container.appendChild(viewBtn.element);
+        container.appendChild(githubProjectBtn.element);
+
+        buttonInstances.projects.push(viewBtn, githubProjectBtn);
+    });
+
+    // Contact Buttons
+    const contactLinks = document.getElementById('contactButtons');
+    if (contactLinks) {
+        const githubContactBtn = new Button({
+            text: '💼 GitHub',
+            size: 20,
+            type: 'pill',
+            tintOpacity: 0.3,
+            onClick: () => {
+                window.open('https://github.com/yourusername', '_blank');
+            }
+        });
+
+        const linkedinBtn = new Button({
+            text: '🔗 LinkedIn',
+            size: 20,
+            type: 'pill',
+            tintOpacity: 0.3,
+            onClick: () => {
+                window.open('https://linkedin.com/in/yourprofile', '_blank');
+            }
+        });
+
+        const emailBtn = new Button({
+            text: '✉️ Email',
+            size: 20,
+            type: 'pill',
+            tintOpacity: 0.3,
+            onClick: () => {
+                window.location.href = 'mailto:your.email@example.com';
+            }
+        });
+
+        contactLinks.appendChild(githubContactBtn.element);
+        contactLinks.appendChild(linkedinBtn.element);
+        contactLinks.appendChild(emailBtn.element);
+
+        buttonInstances.contact = [githubContactBtn, linkedinBtn, emailBtn];
+    }
+}
+
+/**
+ * Fallback button creation if liquid glass library is not loaded
+ * Uses regular HTML buttons styled with CSS
+ */
+function createFallbackButtons() {
+    console.log('Creating fallback buttons...');
+
+    // Hero buttons fallback
+    const heroContainer = document.getElementById('heroButtons');
+    if (heroContainer) {
+        const btn1 = document.createElement('a');
+        btn1.href = '#projects';
+        btn1.className = 'btn-primary';
+        btn1.textContent = 'View Projects';
+
+        const btn2 = document.createElement('a');
+        btn2.href = 'https://github.com/yourusername';
+        btn2.target = '_blank';
+        btn2.className = 'btn-secondary';
+        btn2.textContent = 'GitHub';
+
+        heroContainer.appendChild(btn1);
+        heroContainer.appendChild(btn2);
+    }
+
+    // Project buttons fallback
+    document.querySelectorAll('.project-buttons').forEach(container => {
+        const viewBtn = document.createElement('a');
+        viewBtn.href = '#';
+        viewBtn.className = 'project-link';
+        viewBtn.textContent = 'View Project →';
+
+        container.appendChild(viewBtn);
+    });
+
+    // Contact buttons fallback
+    const contactContainer = document.getElementById('contactButtons');
+    if (contactContainer) {
+        const buttons = [
+            { text: '💼 GitHub', href: 'https://github.com/yourusername' },
+            { text: '🔗 LinkedIn', href: 'https://linkedin.com/in/yourprofile' },
+            { text: '✉️ Email', href: 'mailto:your.email@example.com' }
+        ];
+
+        buttons.forEach(btn => {
+            const anchor = document.createElement('a');
+            anchor.href = btn.href;
+            anchor.className = 'contact-btn';
+            anchor.target = '_blank';
+            anchor.textContent = btn.text;
+
+            contactContainer.appendChild(anchor);
+        });
+    }
+}
+
+// Add fallback CSS for buttons
+window.addEventListener('load', () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        .btn-primary, .btn-secondary {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-link {
+            color: #ec4899;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            transform: translateX(5px);
+        }
+    `;
+    document.head.appendChild(style);
+});
+
 // Add loading animation
 window.addEventListener('load', () => {
     document.body.style.opacity = '0';
@@ -209,4 +419,18 @@ window.addEventListener('load', () => {
         document.body.style.transition = 'opacity 0.5s ease';
         document.body.style.opacity = '1';
     }, 100);
+});
+
+// Re-initialize buttons on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        // Re-render liquid glass buttons if needed
+        Object.values(buttonInstances).flat().forEach(btn => {
+            if (btn.updateSizeFromDOM) {
+                btn.updateSizeFromDOM();
+            }
+        });
+    }, 250);
 });

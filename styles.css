@@ -110,7 +110,7 @@ body {
     width: 100%;
 }
 
-/* Hero Section */
+/* Hero Section with Butterfly Background */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -121,16 +121,42 @@ body {
     padding: 100px 20px;
 }
 
+.butterfly-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photos/7P3JnKyEbq4?w=1200&h=1200&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 0;
+    filter: brightness(0.3) blur(2px);
+}
+
+.butterfly-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    z-index: 1;
+}
+
 .liquid-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.4) 0%, transparent 50%);
     animation: liquidMove 15s ease-in-out infinite;
+    z-index: 1;
 }
 
 @keyframes liquidMove {
@@ -150,7 +176,7 @@ body {
 
 .hero-content {
     text-align: center;
-    z-index: 1;
+    z-index: 2;
     max-width: 800px;
 }
 
@@ -182,37 +208,22 @@ body {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    min-height: 60px;
 }
 
-.btn-primary, .btn-secondary {
-    padding: 15px 40px;
-    border-radius: 50px;
-    text-decoration: none;
+/* Liquid Glass Button Styles */
+.glass-button {
+    position: relative !important;
+    cursor: pointer;
+}
+
+.glass-button-text {
     font-weight: 600;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    letter-spacing: 0.5px;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
-}
-
-.btn-secondary {
-    background: transparent;
-    border-color: var(--glass-border);
-    color: white;
-    backdrop-filter: blur(10px);
-}
-
-.btn-secondary:hover {
-    background: var(--glass-bg);
-    border-color: rgba(255, 255, 255, 0.4);
+.glass-button:hover {
+    transform: scale(1.05) !important;
 }
 
 /* Scroll Indicator */
@@ -228,6 +239,7 @@ body {
     display: flex;
     justify-content: center;
     padding-top: 8px;
+    z-index: 10;
 }
 
 .scroll-indicator span {
@@ -324,6 +336,11 @@ body {
 .skill-icon {
     font-size: 3rem;
     margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.skill-category:hover .skill-icon {
+    transform: scale(1.2) rotate(5deg);
 }
 
 .skill-category h3 {
@@ -371,7 +388,7 @@ body {
 .project-card {
     display: flex;
     flex-direction: column;
-    min-height: 350px;
+    min-height: 400px;
 }
 
 .project-header {
@@ -417,16 +434,12 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.project-link {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-}
-
-.project-link:hover {
-    transform: translateX(5px);
+.project-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    min-height: 50px;
+    margin-top: auto;
 }
 
 /* Contact Section */
@@ -453,30 +466,7 @@ body {
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
-}
-
-.contact-btn {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    padding: 15px 30px;
-    border-radius: 50px;
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-}
-
-.contact-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.contact-btn .icon {
-    font-size: 1.5rem;
+    min-height: 60px;
 }
 
 /* Footer */
@@ -535,9 +525,14 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .contact-links {
+    .contact-links,
+    .cta-buttons {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .butterfly-bg {
+        background-attachment: scroll;
     }
 }
 
@@ -550,14 +545,10 @@ footer {
         font-size: 2rem;
     }
 
-    .cta-buttons {
+    .cta-buttons,
+    .contact-links,
+    .project-buttons {
         flex-direction: column;
         width: 100%;
-    }
-
-    .btn-primary,
-    .btn-secondary {
-        width: 100%;
-        text-align: center;
     }
 }
