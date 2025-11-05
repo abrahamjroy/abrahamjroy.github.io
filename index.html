@@ -29,19 +29,79 @@
         }
 
         .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            overflow: hidden;
+        }
+
+        .background canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            min-height: 100%;
-            z-index: -1;
+            height: 100%;
         }
 
-        .background img {
+        .gradient-orbs {
+            position: absolute;
             width: 100%;
-            height: auto;
-            object-fit: cover;
-            filter: brightness(0.4);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .orb:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(100, 150, 255, 0.3) 0%, transparent 70%);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(150, 100, 255, 0.25) 0%, transparent 70%);
+            top: 50%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+
+        .orb:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(100, 200, 255, 0.2) 0%, transparent 70%);
+            bottom: 20%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(100px, -100px) scale(1.1);
+            }
+            50% {
+                transform: translate(-80px, -150px) scale(0.9);
+            }
+            75% {
+                transform: translate(-120px, 50px) scale(1.05);
+            }
         }
 
         .glass {
@@ -53,75 +113,90 @@
         }
 
         .glass-button {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(2px) saturate(180%);
-            -webkit-backdrop-filter: blur(2px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            padding: 12px 28px;
-            border-radius: 2rem;
-            color: var(--text-primary);
+            position: relative;
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            outline-offset: 4px;
+            transition: filter 250ms;
             text-decoration: none;
             display: inline-block;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            position: relative;
-            overflow: visible;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2),
-                        inset 0 4px 20px rgba(255, 255, 255, 0.3);
         }
 
-        .glass-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-            border-radius: 2rem;
+        .glass-button:hover {
+            filter: brightness(110%);
         }
 
-        .glass-button::after {
-            content: '';
+        .glass-button:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        .btn-shadow {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2rem;
-            backdrop-filter: blur(1px);
-            box-shadow: inset -10px -8px 0px -11px rgba(255, 255, 255, 1),
-                        inset 0px -9px 0px -8px rgba(255, 255, 255, 1);
-            opacity: 0.6;
-            z-index: -1;
-            filter: blur(1px) drop-shadow(10px 4px 6px rgba(0, 0, 0, 0.3)) brightness(115%);
-            pointer-events: none;
+            border-radius: 12px;
+            background: hsl(0deg 0% 0% / 0.25);
+            will-change: transform;
+            transform: translateY(2px);
+            transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
         }
 
-        .glass-button:hover::before {
-            left: 100%;
+        .glass-button:hover .btn-shadow {
+            transform: translateY(4px);
+            transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
         }
 
-        .glass-button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 50px rgba(255, 255, 255, 0.2),
-                        inset 0 6px 25px rgba(255, 255, 255, 0.4);
-            border-color: rgba(255, 255, 255, 0.95);
+        .glass-button:active .btn-shadow {
+            transform: translateY(1px);
+            transition: transform 34ms;
         }
 
-        .glass-button:hover::after {
-            opacity: 0.8;
-            filter: blur(1px) drop-shadow(12px 5px 8px rgba(0, 0, 0, 0.4)) brightness(125%);
+        .btn-edge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: linear-gradient(
+                to left,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.2) 8%,
+                rgba(255, 255, 255, 0.2) 92%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
         }
 
-        .glass-button:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2),
-                        inset 0 4px 20px rgba(255, 255, 255, 0.3);
+        .btn-front {
+            display: block;
+            position: relative;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            will-change: transform;
+            transform: translateY(-4px);
+            transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-button:hover .btn-front {
+            transform: translateY(-6px);
+            transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+        }
+
+        .glass-button:active .btn-front {
+            transform: translateY(-2px);
+            transition: transform 34ms;
         }
 
         header {
@@ -510,17 +585,172 @@
             animation-delay: -10s;
         }
 
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .scroll-top::before {
+            content: '↑';
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(100, 150, 255, 0.8) 0%, rgba(150, 100, 255, 0.8) 100%);
+            z-index: 9999;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.1s;
+        }
+
+        /* Enhanced card hover effect */
+        .skill-card::after,
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .skill-card:hover::after,
+        .project-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Loading animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Typing animation for hero subtitle */
+        .typing-text {
+            overflow: hidden;
+            border-right: 2px solid rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+            animation: typing 3.5s steps(60, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 42px;
+                font-size: 36px;
             }
 
             .hero .subtitle {
-                font-size: 18px;
+                font-size: 16px;
             }
 
             .section-title {
-                font-size: 36px;
+                font-size: 32px;
             }
 
             .skills-grid,
@@ -528,24 +758,116 @@
                 grid-template-columns: 1fr;
             }
 
+            .menu-toggle {
+                display: flex;
+            }
+
             nav {
-                flex-direction: column;
-                gap: 20px;
+                padding: 0 20px;
             }
 
             .nav-links {
-                gap: 15px;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                transform: translateY(-150%);
+                transition: transform 0.3s;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .nav-links li {
+                text-align: center;
             }
 
             section {
                 padding: 80px 20px;
             }
+
+            .profile-image {
+                width: 140px;
+                height: 140px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .glass-button {
+                width: 100%;
+            }
+
+            .experience-timeline {
+                padding-left: 30px;
+            }
+
+            .timeline-item::before {
+                left: -38px;
+            }
+
+            .scroll-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .floating-shape {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 26px;
+            }
+
+            .skill-card,
+            .project-card,
+            .timeline-content {
+                padding: 25px;
+            }
+
+            .tech-tags {
+                gap: 8px;
+            }
+
+            .tech-tag {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
     <div class="background">
-        <img src="images/img_bg.jpg" alt="Background">
+        <canvas id="particleCanvas"></canvas>
+        <div class="gradient-orbs">
+            <div class="orb"></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
+        </div>
     </div>
 
     <div class="parallax-layer">
@@ -557,7 +879,12 @@
     <header id="header">
         <nav>
             <div class="logo">Abraham Jeevan Roy</div>
-            <ul class="nav-links">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -575,8 +902,16 @@
             <h1>Abraham Jeevan Roy</h1>
             <p class="subtitle">AI/ML Developer | Specializing in Generative AI & Machine Learning Solutions</p>
             <div class="cta-buttons">
-                <a href="#projects" class="glass-button">View My Work</a>
-                <a href="#contact" class="glass-button">Get In Touch</a>
+                <a href="#projects" class="glass-button">
+                    <span class="btn-shadow"></span>
+                    <span class="btn-edge"></span>
+                    <span class="btn-front">View My Work</span>
+                </a>
+                <a href="#contact" class="glass-button">
+                    <span class="btn-shadow"></span>
+                    <span class="btn-edge"></span>
+                    <span class="btn-front">Get In Touch</span>
+                </a>
             </div>
         </div>
     </section>
@@ -730,13 +1065,31 @@
                 Interested in collaborating on AI/ML projects or discussing generative AI solutions? Let's talk!
             </p>
             <div class="contact-links scroll-reveal">
-                <a href="https://github.com/yourusername" class="glass-button" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="https://linkedin.com/in/yourusername" class="glass-button" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="mailto:your.email@example.com" class="glass-button">Email Me</a>
-                <a href="Files/resume.pdf" class="glass-button" download="Abraham_Jeevan_Roy_Resume.pdf">Download Resume</a>
+                <a href="https://github.com/abrahamjroy/" class="glass-button" target="_blank" rel="noopener noreferrer">
+                    <span class="btn-shadow"></span>
+                    <span class="btn-edge"></span>
+                    <span class="btn-front">GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/abraham-jeevan-roy/" class="glass-button" target="_blank" rel="noopener noreferrer">
+                    <span class="btn-shadow"></span>
+                    <span class="btn-edge"></span>
+                    <span class="btn-front">LinkedIn</span>
+                </a>
+                <a href="mailto:abrahamjroy@gmail.com" class="glass-button">
+                    <span class="btn-shadow"></span>
+                    <span class="btn-edge"></span>
+                    <span class="btn-front">Email Me</span>
+                </a>
+                <a href="Files/resume.pdf" class="glass-button" download="Abraham_Jeevan_Roy_Resume.pdf">
+                    <span class="btn-shadow"></span>
+                    <span class="btn-edge"></span>
+                    <span class="btn-front">Download Resume</span>
+                </a>
             </div>
         </div>
     </section>
+
+    <div class="scroll-top" id="scrollTop"></div>
 
     <footer>
         <p>&copy; 2025 Abraham Jeevan Roy. Crafted with passion for innovation.</p>
@@ -814,10 +1167,65 @@
             });
         });
 
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Scroll to top button
+        const scrollTop = document.getElementById('scrollTop');
+
+        function handleScrollTop() {
+            if (window.scrollY > 500) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        }
+
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Progress bar
+        const progressBar = document.getElementById('progressBar');
+
+        function updateProgressBar() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / scrollHeight);
+            progressBar.style.transform = `scaleX(${progress})`;
+        }
+
+        // Loading screen
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1000);
+        });
+
         // Event listeners
         window.addEventListener('scroll', () => {
             handleScroll();
             handleParallax();
+            handleScrollTop();
+            updateProgressBar();
         });
 
         window.addEventListener('load', () => {
@@ -826,6 +1234,88 @@
 
         // Initial call
         revealOnScroll();
+        updateProgressBar();
+
+        // Particle network background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 80;
+        const connectionDistance = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        const opacity = (1 - distance / connectionDistance) * 0.3;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
