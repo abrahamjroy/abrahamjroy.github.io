@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abraham Jeevan Roy - AI/ML Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.05);
@@ -11,6 +14,18 @@
             --glass-shadow: rgba(0, 0, 0, 0.3);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.8);
+            --bg-primary: #000;
+            --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        [data-theme="light"] {
+            --glass-bg: rgba(0, 0, 0, 0.05);
+            --glass-border: rgba(0, 0, 0, 0.18);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+            --text-primary: #1a1a1a;
+            --text-secondary: rgba(26, 26, 26, 0.8);
+            --bg-primary: #FFFFFF;
+            --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
         }
 
         * {
@@ -20,12 +35,13 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
             position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .background {
@@ -34,74 +50,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: -2;
+            background: var(--bg-primary);
             overflow: hidden;
+            transition: background-color 0.3s ease;
         }
 
-        .background canvas {
+        .background canvas#gradientCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-        }
-
-        .gradient-orbs {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: orbFloat 20s ease-in-out infinite;
-        }
-
-        .orb:nth-child(1) {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(100, 150, 255, 0.3) 0%, transparent 70%);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb:nth-child(2) {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(150, 100, 255, 0.25) 0%, transparent 70%);
-            top: 50%;
-            right: 15%;
-            animation-delay: -7s;
-        }
-
-        .orb:nth-child(3) {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(100, 200, 255, 0.2) 0%, transparent 70%);
-            bottom: 20%;
-            left: 30%;
-            animation-delay: -14s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(100px, -100px) scale(1.1);
-            }
-            50% {
-                transform: translate(-80px, -150px) scale(0.9);
-            }
-            75% {
-                transform: translate(-120px, 50px) scale(1.05);
-            }
+            height: 60%;
+            transform: rotate(58deg) scale(2) translateY(-46%);
+            z-index: -1;
         }
 
         .glass {
@@ -299,6 +261,10 @@
             font-weight: 800;
             margin-bottom: 20px;
             letter-spacing: -2px;
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .hero h1 {
             background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -377,16 +343,7 @@
             font-size: 48px;
             margin-bottom: 20px;
             display: inline-block;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
 
         .projects-container {
@@ -583,6 +540,84 @@
             bottom: 20%;
             left: 20%;
             animation-delay: -10s;
+        }
+
+        /* Navigation controls */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Theme toggle switch */
+        .theme-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .theme-label {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .theme-label.active {
+            color: var(--text-primary);
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="light"] .theme-toggle {
+            background: rgba(255, 200, 100, 0.3);
+            border-color: rgba(255, 200, 100, 0.4);
+        }
+
+        [data-theme="light"] .theme-toggle::before {
+            transform: translateX(28px);
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(255, 200, 100, 0.4);
         }
 
         /* Mobile Menu Toggle */
@@ -861,13 +896,7 @@
 
     <div class="progress-bar" id="progressBar"></div>
 
-    <div class="background">
-        <canvas id="particleCanvas"></canvas>
-        <div class="gradient-orbs">
-            <div class="orb"></div>
-            <div class="orb"></div>
-            <div class="orb"></div>
-        </div>
+    <div class="background" id="vantaBackground">
     </div>
 
     <div class="parallax-layer">
@@ -879,10 +908,17 @@
     <header id="header">
         <nav>
             <div class="logo">Abraham Jeevan Roy</div>
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="nav-controls">
+                <div class="theme-toggle-wrapper">
+                    <span class="theme-label" id="darkLabel">DARK</span>
+                    <div class="theme-toggle" id="themeToggle" role="switch" aria-label="Toggle theme"></div>
+                    <span class="theme-label active" id="lightLabel">LIGHT</span>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
@@ -921,32 +957,77 @@
             <h2 class="section-title scroll-reveal">Core Expertise</h2>
             <div class="skills-grid">
                 <div class="skill-card glass scroll-reveal">
-                    <div class="skill-icon">🤖</div>
+                    <div class="skill-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <rect x="8" y="8" width="32" height="32" rx="8" fill="#6366F1"/>
+                            <path d="M20 18h8M20 24h8M20 30h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="16" cy="18" r="2" fill="#A5B4FC"/>
+                            <circle cx="16" cy="24" r="2" fill="#A5B4FC"/>
+                            <circle cx="16" cy="30" r="2" fill="#A5B4FC"/>
+                        </svg>
+                    </div>
                     <h3>Generative AI</h3>
                     <p>Expertise in Large Language Models (LLMs), prompt engineering, and building AI-powered applications using GPT, Claude, and open-source models. Creating innovative solutions with RAG architectures and fine-tuning techniques.</p>
                 </div>
                 <div class="skill-card glass scroll-reveal">
-                    <div class="skill-icon">🧠</div>
+                    <div class="skill-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <circle cx="24" cy="24" r="18" fill="#EC4899"/>
+                            <path d="M18 20c0-3.3 2.7-6 6-6s6 2.7 6 6M18 28h12M21 32h6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="20" cy="20" r="2" fill="#FBCFE8"/>
+                            <circle cx="28" cy="20" r="2" fill="#FBCFE8"/>
+                        </svg>
+                    </div>
                     <h3>Machine Learning</h3>
                     <p>Deep understanding of ML algorithms, model training, and deployment. Experience with TensorFlow, PyTorch, scikit-learn, and building end-to-end ML pipelines for production environments.</p>
                 </div>
                 <div class="skill-card glass scroll-reveal">
-                    <div class="skill-icon">📊</div>
+                    <div class="skill-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <rect x="6" y="28" width="8" height="14" rx="2" fill="#10B981"/>
+                            <rect x="16" y="18" width="8" height="24" rx="2" fill="#34D399"/>
+                            <rect x="26" y="22" width="8" height="20" rx="2" fill="#6EE7B7"/>
+                            <rect x="36" y="12" width="8" height="30" rx="2" fill="#A7F3D0"/>
+                        </svg>
+                    </div>
                     <h3>Data Engineering</h3>
                     <p>Proficient in data preprocessing, feature engineering, and working with large-scale datasets. Expertise in pandas, NumPy, and building efficient data pipelines for ML workflows.</p>
                 </div>
                 <div class="skill-card glass scroll-reveal">
-                    <div class="skill-icon">🔍</div>
+                    <div class="skill-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <circle cx="20" cy="20" r="12" stroke="#F59E0B" stroke-width="3" fill="none"/>
+                            <path d="M29 29l10 10" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="20" cy="20" r="6" fill="#FCD34D"/>
+                        </svg>
+                    </div>
                     <h3>NLP & Search</h3>
                     <p>Advanced natural language processing with transformers, embeddings, and semantic search. Building intelligent search systems using FAISS, vector databases, and hybrid retrieval methods.</p>
                 </div>
                 <div class="skill-card glass scroll-reveal">
-                    <div class="skill-icon">🚀</div>
+                    <div class="skill-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <path d="M24 6l-4 10h-8l6 8-2 12 8-6 8 6-2-12 6-8h-8z" fill="#EF4444"/>
+                            <circle cx="24" cy="18" r="4" fill="#FCA5A5"/>
+                            <path d="M20 38v4M28 38v4M24 42v2" stroke="#F87171" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <h3>Model Deployment</h3>
                     <p>Experience deploying ML models to production using Flask, FastAPI, and cloud platforms. Building scalable APIs and integrating AI solutions into real-world applications.</p>
                 </div>
                 <div class="skill-card glass scroll-reveal">
-                    <div class="skill-icon">⚡</div>
+                    <div class="skill-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <path d="M28 6l-16 20h12l-4 16 16-20h-12z" fill="#8B5CF6"/>
+                            <path d="M28 6l-16 20h12l-4 16 16-20h-12z" fill="url(#grad1)"/>
+                            <defs>
+                                <linearGradient id="grad1" x1="24" y1="6" x2="24" y2="42">
+                                    <stop offset="0%" stop-color="#A78BFA"/>
+                                    <stop offset="100%" stop-color="#8B5CF6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
                     <h3>Performance Optimization</h3>
                     <p>Optimizing model inference, implementing quantization, and improving system performance. Experience with batch processing, caching strategies, and efficient resource utilization.</p>
                 </div>
@@ -1236,86 +1317,112 @@
         revealOnScroll();
         updateProgressBar();
 
-        // Particle network background
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const darkLabel = document.getElementById('darkLabel');
+        const lightLabel = document.getElementById('lightLabel');
+        const body = document.body;
+        let vantaEffect = null;
 
-        const particles = [];
-        const particleCount = 80;
-        const connectionDistance = 150;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-                ctx.fill();
-            }
+        // Check for saved theme or default to dark
+        const savedTheme = sessionStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.dataset.theme = 'light';
+            lightLabel.classList.add('active');
+            darkLabel.classList.remove('active');
+        } else {
+            darkLabel.classList.add('active');
+            lightLabel.classList.remove('active');
         }
 
-        // Initialize particles
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        function connectParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < connectionDistance) {
-                        const opacity = (1 - distance / connectionDistance) * 0.3;
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
+        themeToggle.addEventListener('click', () => {
+            if (body.dataset.theme === 'light') {
+                body.dataset.theme = 'dark';
+                darkLabel.classList.add('active');
+                lightLabel.classList.remove('active');
+                sessionStorage.setItem('theme', 'dark');
+                updateVantaTheme('dark');
+            } else {
+                body.dataset.theme = 'light';
+                lightLabel.classList.add('active');
+                darkLabel.classList.remove('active');
+                sessionStorage.setItem('theme', 'light');
+                updateVantaTheme('light');
             }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            connectParticles();
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         });
+
+        // Initialize Vanta.js clouds background
+        function initVanta() {
+            const theme = body.dataset.theme || 'dark';
+            const bgElement = document.getElementById('vantaBackground');
+            
+            if (window.VANTA && window.VANTA.CLOUDS) {
+                if (vantaEffect) {
+                    vantaEffect.destroy();
+                }
+                
+                const isDark = theme === 'dark';
+                vantaEffect = window.VANTA.CLOUDS({
+                    el: bgElement,
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    skyColor: isDark ? 0x1a2332 : 0x4a90d9,
+                    cloudColor: isDark ? 0x2d3f5f : 0x7a95b0,
+                    cloudShadowColor: isDark ? 0x0f1419 : 0x5a7590,
+                    sunColor: isDark ? 0x4a5c7d : 0x555555,
+                    sunGlareColor: isDark ? 0x3a4a6a : 0x777777,
+                    sunlightColor: isDark ? 0x1f2a3a : 0x999999,
+                    speed: 0.8
+                });
+            } else {
+                // Fallback if Vanta doesn't load - try again after delay
+                setTimeout(initVanta, 500);
+            }
+        }
+
+        function updateVantaTheme(theme) {
+            if (vantaEffect) {
+                const isDark = theme === 'dark';
+                vantaEffect.setOptions({
+                    skyColor: isDark ? 0x1a2332 : 0x4a90d9,
+                    cloudColor: isDark ? 0x2d3f5f : 0x7a95b0,
+                    cloudShadowColor: isDark ? 0x0f1419 : 0x5a7590,
+                    sunColor: isDark ? 0x4a5c7d : 0x555555,
+                    sunGlareColor: isDark ? 0x3a4a6a : 0x777777,
+                    sunlightColor: isDark ? 0x1f2a3a : 0x999999
+                });
+            }
+        }
+
+        // Load Vanta.js dependencies
+        function loadVanta() {
+            // Load Three.js first
+            const threeScript = document.createElement('script');
+            threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+            threeScript.onerror = () => {
+                console.error('Failed to load Three.js');
+            };
+            threeScript.onload = () => {
+                // Load Vanta.js Clouds after Three.js
+                const vantaScript = document.createElement('script');
+                vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js';
+                vantaScript.onerror = () => {
+                    console.error('Failed to load Vanta.js');
+                };
+                vantaScript.onload = () => {
+                    // Wait a moment for Vanta to be fully loaded
+                    setTimeout(initVanta, 100);
+                };
+                document.head.appendChild(vantaScript);
+            };
+            document.head.appendChild(threeScript);
+        }
+
+        // Initialize Vanta on page load
+        window.addEventListener('load', loadVanta);
     </script>
 </body>
 </html>
