@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI/ML Developer Portfolio</title>
+    <title>Abraham Jeevan Roy - AI/ML Developer</title>
     <style>
         :root {
             --glass-bg: rgba(255, 255, 255, 0.05);
@@ -25,20 +25,21 @@
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
+            position: relative;
         }
 
         .background {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             z-index: -1;
         }
 
         .background img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
             filter: brightness(0.4);
         }
@@ -52,12 +53,12 @@
         }
 
         .glass-button {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px) saturate(150%);
-            -webkit-backdrop-filter: blur(10px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(2px) saturate(180%);
+            -webkit-backdrop-filter: blur(2px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             padding: 12px 28px;
-            border-radius: 12px;
+            border-radius: 2rem;
             color: var(--text-primary);
             text-decoration: none;
             display: inline-block;
@@ -66,7 +67,9 @@
             font-size: 16px;
             font-weight: 500;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2),
+                        inset 0 4px 20px rgba(255, 255, 255, 0.3);
         }
 
         .glass-button::before {
@@ -76,8 +79,27 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
+            border-radius: 2rem;
+        }
+
+        .glass-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            backdrop-filter: blur(1px);
+            box-shadow: inset -10px -8px 0px -11px rgba(255, 255, 255, 1),
+                        inset 0px -9px 0px -8px rgba(255, 255, 255, 1);
+            opacity: 0.6;
+            z-index: -1;
+            filter: blur(1px) drop-shadow(10px 4px 6px rgba(0, 0, 0, 0.3)) brightness(115%);
+            pointer-events: none;
         }
 
         .glass-button:hover::before {
@@ -85,13 +107,21 @@
         }
 
         .glass-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(255, 255, 255, 0.2),
+                        inset 0 6px 25px rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .glass-button:hover::after {
+            opacity: 0.8;
+            filter: blur(1px) drop-shadow(12px 5px 8px rgba(0, 0, 0, 0.4)) brightness(125%);
         }
 
         .glass-button:active {
-            transform: translateY(0);
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2),
+                        inset 0 4px 20px rgba(255, 255, 255, 0.3);
         }
 
         header {
@@ -526,7 +556,7 @@
 
     <header id="header">
         <nav>
-            <div class="logo">AI/ML Developer</div>
+            <div class="logo">Abraham Jeevan Roy</div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -542,8 +572,8 @@
             <div class="profile-container">
                 <img src="images/Profile.jpg" alt="Profile Picture" class="profile-image">
             </div>
-            <h1>AI/ML Developer</h1>
-            <p class="subtitle">Specializing in Generative AI & Machine Learning Solutions</p>
+            <h1>Abraham Jeevan Roy</h1>
+            <p class="subtitle">AI/ML Developer | Specializing in Generative AI & Machine Learning Solutions</p>
             <div class="cta-buttons">
                 <a href="#projects" class="glass-button">View My Work</a>
                 <a href="#contact" class="glass-button">Get In Touch</a>
@@ -703,13 +733,13 @@
                 <a href="https://github.com/yourusername" class="glass-button" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="https://linkedin.com/in/yourusername" class="glass-button" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="mailto:your.email@example.com" class="glass-button">Email Me</a>
-                <a href="#" class="glass-button">Download Resume</a>
+                <a href="Files/resume.pdf" class="glass-button" download="Abraham_Jeevan_Roy_Resume.pdf">Download Resume</a>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 AI/ML Developer Portfolio. Crafted with passion for innovation.</p>
+        <p>&copy; 2025 Abraham Jeevan Roy. Crafted with passion for innovation.</p>
     </footer>
 
     <script>
