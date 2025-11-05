@@ -3,462 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI/ML Developer - Portfolio</title>
+    <title>AI/ML Developer Portfolio</title>
     <style>
-        /* Reset and Base Styles */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-color: #0f0f23;
-            --text-color: #ffffff;
-            --text-secondary: #e0e0e0;
-            --primary-color: #6366f1;
-            --secondary-color: #8b5cf6;
-            --accent-color: #ec4899;
-            --glass-primary: rgba(99, 102, 241, 0.15);
-            --glass-secondary: rgba(139, 92, 246, 0.15);
-        }
-
-        /* Light Mode */
-        [data-theme="light"] {
-            --bg-color: #f0f4f8;
-            --text-color: #1a1a2e;
-            --text-secondary: #4a5568;
-            --primary-color: #3b82f6;
-            --secondary-color: #8b5cf6;
-            --accent-color: #ec4899;
-            --glass-primary: rgba(59, 130, 246, 0.12);
-            --glass-secondary: rgba(139, 92, 246, 0.12);
-        }
-
-        /* Dark Mode */
-        [data-theme="dark"] {
-            --bg-color: #050510;
-            --text-color: #ffffff;
-            --text-secondary: #9ca3af;
-            --primary-color: #4338ca;
-            --secondary-color: #6b21a8;
-            --accent-color: #be185d;
-            --glass-primary: rgba(67, 56, 202, 0.15);
-            --glass-secondary: rgba(107, 33, 168, 0.15);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            position: relative;
         }
 
-        /* Wireframe Background for Light Mode */
-        [data-theme="light"] body::before {
-            content: '';
+        .background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
             z-index: -1;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
         }
 
-        /* iOS-style Theme Toggle with Liquid Glass Displacement */
-        .theme-switch-wrapper {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 var(--glass-shadow);
         }
 
-        .theme-switch {
-            display: inline-block;
-            width: 100px;
-            height: 36px;
-            position: relative;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-            border-radius: 50px;
-            cursor: pointer;
+        .glass-button {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            overflow: hidden;
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: transparent;
-            transition: 0.3s;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 6px;
-        }
-
-        .slider::before {
-            content: "";
-            position: absolute;
-            height: 28px;
-            width: 28px;
-            left: 4px;
-            bottom: 4px;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 50%;
-            box-shadow: 
-                0 2px 8px rgba(99, 102, 241, 0.3),
-                inset -1px -1px 2px rgba(255, 255, 255, 0.1);
-        }
-
-        .slider .icon {
-            font-size: 14px;
-            z-index: 1;
-            pointer-events: none;
-            font-weight: 600;
-            transition: opacity 0.3s;
-        }
-
-        .slider .icon:first-child {
-            margin-right: 8px;
-            opacity: 1;
-        }
-
-        .slider .icon:last-child {
-            margin-left: 8px;
-            opacity: 0.5;
-        }
-
-        input:checked + .slider::before {
-            transform: translateX(64px);
-        }
-
-        input:checked + .slider .icon:first-child {
-            opacity: 0.5;
-        }
-
-        input:checked + .slider .icon:last-child {
-            opacity: 1;
-        }
-
-        /* Liquid Glass with Displacement */
-        .glass-liquid {
-            position: relative;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 
-                0 8px 32px rgba(31, 38, 135, 0.37),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .glass-liquid::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent 0%,
-                rgba(255, 255, 255, 0.08) 25%,
-                transparent 50%,
-                rgba(255, 255, 255, 0) 75%,
-                transparent 100%);
-            animation: shimmer 4s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(50%, 50%) rotate(360deg); }
-        }
-
-        .glass-liquid:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 12px 40px rgba(31, 38, 135, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .glass-liquid > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Animated Navigation Bar */
-        nav {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
-            border-radius: 50px;
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 8px;
-            position: relative;
-        }
-
-        .nav-links li {
-            position: relative;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
+            padding: 12px 28px;
+            border-radius: 12px;
+            color: var(--text-primary);
             text-decoration: none;
-            padding: 12px 24px;
-            display: block;
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            font-size: 16px;
             font-weight: 500;
             position: relative;
-            z-index: 1;
-            font-size: 14px;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-indicator {
-            position: absolute;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            border-radius: 50px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 0;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-
-        /* Liquid Glass Buttons */
-        .btn-glass {
-            position: relative;
-            padding: 14px 32px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            color: var(--text-color);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 
-                0 8px 32px rgba(31, 38, 135, 0.37),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            display: inline-block;
         }
 
-        .btn-glass::before {
+        .glass-button::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, 
-                transparent,
-                rgba(255, 255, 255, 0.15),
-                transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: left 0.5s;
         }
 
-        .btn-glass:hover::before {
+        .glass-button:hover::before {
             left: 100%;
         }
 
-        .btn-glass:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 12px 40px rgba(31, 38, 135, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.25);
+        .glass-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.35);
         }
 
-        .btn-glass-secondary {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .glass-button:active {
+            transform: translateY(0);
         }
 
-        .btn-glass-secondary:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-            border-color: rgba(255, 255, 255, 0.3);
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
         }
 
-        .btn-glass span {
-            position: relative;
-            z-index: 1;
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 0;
         }
 
-        /* Hero Section */
-        .hero {
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 100px 40px;
             position: relative;
-            overflow: hidden;
-            padding: 100px 20px;
         }
 
-        .butterfly-real-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1730196440479-7c1e7acad1fb?w=1920&h=1080&fit=crop&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            z-index: 0;
-            filter: brightness(0.3) blur(2px);
-        }
-
-        .butterfly-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1920 1080\'%3E%3Cdefs%3E%3ClinearGradient id=\'grad1\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' style=\'stop-color:%23667eea;stop-opacity:0.4\' /%3E%3Cstop offset=\'100%25\' style=\'stop-color:%23764ba2;stop-opacity:0.4\' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=\'1920\' height=\'1080\' fill=\'url(%23grad1)\' /%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-        }
-
-        .butterfly-bg::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
-            z-index: 1;
-        }
-
-        .liquid-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.4) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.4) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.4) 0%, transparent 50%);
-            animation: liquidMove 15s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        @keyframes liquidMove {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -50px) scale(1.1); }
-            50% { transform: translate(-30px, 30px) scale(0.9); }
-            75% { transform: translate(30px, 50px) scale(1.05); }
-        }
-
-        .hero-content {
+        .hero {
             text-align: center;
-            z-index: 2;
-            max-width: 800px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards;
         }
 
-        .hero-content h1 {
-            font-size: 4rem;
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-container {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            object-fit: cover;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
             margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, #a8b2ff 100%);
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 700;
         }
 
-        [data-theme="light"] .hero-content h1 {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+        .hero .subtitle {
+            font-size: 24px;
             color: var(--text-secondary);
-            font-weight: 400;
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
             margin-bottom: 40px;
-            color: var(--text-secondary);
+            font-weight: 300;
         }
 
         .cta-buttons {
@@ -468,767 +214,588 @@
             flex-wrap: wrap;
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 50px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            display: flex;
-            justify-content: center;
-            padding-top: 8px;
-            z-index: 10;
-        }
-
-        .scroll-indicator span {
-            width: 6px;
-            height: 10px;
-            background: white;
-            border-radius: 3px;
-            animation: scroll 2s ease-in-out infinite;
-        }
-
-        @keyframes scroll {
-            0%, 100% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(15px); opacity: 0.5; }
-        }
-
-        /* About Section */
-        .about {
-            padding: 100px 20px;
-            position: relative;
-        }
-
-        .about h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .about p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            color: var(--text-secondary);
-        }
-
-        .highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .highlight-item {
-            text-align: center;
-        }
-
-        .highlight-item .number {
-            display: block;
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .highlight-item .label {
-            display: block;
-            color: var(--text-secondary);
-            margin-top: 10px;
-        }
-
-        /* Skills Section */
-        .skills {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+        .content-section {
+            max-width: 1200px;
+            width: 100%;
         }
 
         .section-title {
-            text-align: center;
-            font-size: 3rem;
+            font-size: 48px;
+            font-weight: 700;
             margin-bottom: 60px;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            margin-bottom: 40px;
         }
 
-        .skill-category {
-            padding: 30px;
-            text-align: center;
+        .skill-card {
+            padding: 40px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .skill-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 15px;
         }
 
         .skill-icon {
-            font-size: 3rem;
+            font-size: 48px;
             margin-bottom: 20px;
-            transition: transform 0.3s ease;
             display: inline-block;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .skill-category:hover .skill-icon {
-            transform: scale(1.2) rotate(5deg);
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
 
-        .skill-category h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .skill-list {
-            list-style: none;
-            text-align: left;
-            padding: 0 20px;
-        }
-
-        .skill-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-secondary);
-            position: relative;
-            padding-left: 25px;
-        }
-
-        .skill-list li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        .skill-list li:last-child {
-            border-bottom: none;
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 100px 20px;
-        }
-
-        .projects-grid {
+        .projects-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
         }
 
         .project-card {
-            display: flex;
-            flex-direction: column;
-            min-height: 400px;
-            padding: 30px;
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .project-header h3 {
-            font-size: 1.5rem;
-            flex: 1;
-        }
-
-        .project-tag {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            padding: 5px 15px;
+            padding: 35px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.03);
+        }
+
+        .project-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
             font-weight: 600;
-            color: #fff;
         }
 
         .project-card p {
             color: var(--text-secondary);
             margin-bottom: 20px;
-            flex-grow: 1;
+            line-height: 1.7;
         }
 
-        .tech-stack {
+        .tech-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
-        .tech-stack span {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(20px);
+        .tech-tag {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .project-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
+        .experience-timeline {
+            position: relative;
+            padding-left: 50px;
         }
 
-        .project-link:hover {
-            transform: translateX(5px);
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
         }
 
-        /* Contact Section */
-        .contact {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
         }
 
-        .contact h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -56px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-        .contact p {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
+        .timeline-content {
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .timeline-content h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content .role {
             color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .contact-section {
+            text-align: center;
         }
 
         .contact-links {
             display: flex;
-            justify-content: center;
             gap: 20px;
+            justify-content: center;
             flex-wrap: wrap;
+            margin-top: 40px;
         }
 
-        .contact-btn {
-            position: relative;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            padding: 14px 28px;
-            border-radius: 50px;
-            color: var(--text-color);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-        .contact-btn::before {
-            content: '';
+        footer p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .parallax-layer {
             position: absolute;
-            top: 0;
-            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, 
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent);
-            transition: left 0.5s;
-            z-index: 0;
+            top: 0;
+            left: 0;
         }
 
-        .contact-btn:hover::before {
-            left: 100%;
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: floatShape 20s ease-in-out infinite;
         }
 
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
-            border-color: rgba(255, 255, 255, 0.25);
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(50px, -50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(-30px, -100px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-80px, -30px) rotate(270deg);
+            }
         }
 
-        .contact-btn .icon {
-            font-size: 18px;
-            position: relative;
-            z-index: 1;
+        .floating-shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
         }
 
-        .contact-btn span {
-            position: relative;
-            z-index: 1;
+        .floating-shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
         }
 
-        /* Footer */
-        footer {
-            padding: 40px 20px;
-            text-align: center;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        .floating-shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
         }
 
-        /* Scroll Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-1 { transition-delay: 0.2s; }
-        .delay-2 { transition-delay: 0.4s; }
-        .delay-3 { transition-delay: 0.6s; }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            nav {
-                top: auto;
-                bottom: 20px;
-                width: calc(100% - 40px);
+            .hero h1 {
+                font-size: 42px;
             }
 
-            .nav-links {
-                justify-content: space-around;
+            .hero .subtitle {
+                font-size: 18px;
             }
 
-            .nav-links a {
-                padding: 10px 12px;
-                font-size: 0.85rem;
+            .section-title {
+                font-size: 36px;
             }
-
-            .hero-content h1 { font-size: 2.5rem; }
-            .hero-content h2 { font-size: 1.3rem; }
-            .section-title { font-size: 2rem; }
 
             .skills-grid,
-            .projects-grid {
+            .projects-container {
                 grid-template-columns: 1fr;
             }
 
-            .contact-links,
-            .cta-buttons {
+            nav {
                 flex-direction: column;
-                align-items: stretch;
+                gap: 20px;
             }
 
-            .theme-switch-wrapper {
-                top: 10px;
-                right: 10px;
+            .nav-links {
+                gap: 15px;
             }
-        }
 
-        @media (max-width: 480px) {
-            .hero-content h1 { font-size: 2rem; }
-            .btn-glass { padding: 12px 24px; }
+            section {
+                padding: 80px 20px;
+            }
         }
     </style>
 </head>
-<body data-theme="normal">
-    <!-- SVG Filter for Liquid Glass Displacement -->
-    <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <filter id="liquidGlass">
-                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" seed="2" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
-            </filter>
-        </defs>
-    </svg>
-
-    <!-- Theme Toggle with Liquid Glass Displacement -->
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch">
-            <input type="checkbox" id="theme-toggle">
-            <span class="slider">
-                <span class="icon">🌙</span>
-                <span class="icon">☀️</span>
-            </span>
-        </label>
+<body>
+    <div class="background">
+        <img src="images/img_bg.jpg" alt="Background">
     </div>
 
-    <!-- Navigation -->
-    <nav>
-        <ul class="nav-links">
-            <div class="nav-indicator"></div>
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+    <div class="parallax-layer">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="butterfly-real-bg"></div>
-        <div class="butterfly-bg"></div>
-        <div class="liquid-bg"></div>
-        <div class="hero-content">
-            <h1 class="animate-on-scroll">AI/ML Developer</h1>
-            <h2 class="animate-on-scroll delay-1">Specializing in Generative AI & Document Intelligence</h2>
-            <p class="animate-on-scroll delay-2">Building intelligent systems with cutting-edge AI technologies</p>
-            <div class="cta-buttons animate-on-scroll delay-3">
-                <a href="#projects" class="btn-glass"><span>View Projects</span></a>
-                <a href="https://github.com/yourusername" target="_blank" class="btn-glass btn-glass-secondary"><span>GitHub Profile</span></a>
+    <header id="header">
+        <nav>
+            <div class="logo">AI/ML Developer</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <div class="hero">
+            <div class="profile-container">
+                <img src="images/Profile.jpg" alt="Profile Picture" class="profile-image">
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <span></span>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="glass-liquid animate-on-scroll" style="padding: 30px;">
-                <h2>About Me</h2>
-                <p>I'm an AI/ML developer based in India, passionate about building intelligent systems that solve real-world problems. With expertise in Generative AI, document processing, and semantic search technologies, I create scalable solutions using state-of-the-art models and architectures.</p>
-                <div class="highlights">
-                    <div class="highlight-item">
-                        <span class="number">3+</span>
-                        <span class="label">Years Experience</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="number">50+</span>
-                        <span class="label">Projects Completed</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="number">10+</span>
-                        <span class="label">AI Models Deployed</span>
-                    </div>
-                </div>
+            <h1>AI/ML Developer</h1>
+            <p class="subtitle">Specializing in Generative AI & Machine Learning Solutions</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="glass-button">View My Work</a>
+                <a href="#contact" class="glass-button">Get In Touch</a>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title animate-on-scroll">Technical Expertise</h2>
-
+    <section id="skills">
+        <div class="content-section">
+            <h2 class="section-title scroll-reveal">Core Expertise</h2>
             <div class="skills-grid">
-                <div class="glass-liquid skill-category animate-on-scroll">
-                    <div class="skill-icon">🧠</div>
+                <div class="skill-card glass scroll-reveal">
+                    <div class="skill-icon">🤖</div>
                     <h3>Generative AI</h3>
-                    <ul class="skill-list">
-                        <li>Large Language Models (LLMs)</li>
-                        <li>RAG Architectures</li>
-                        <li>Prompt Engineering</li>
-                        <li>Fine-tuning & Optimization</li>
-                        <li>Azure OpenAI & Local Models</li>
-                    </ul>
+                    <p>Expertise in Large Language Models (LLMs), prompt engineering, and building AI-powered applications using GPT, Claude, and open-source models. Creating innovative solutions with RAG architectures and fine-tuning techniques.</p>
                 </div>
-
-                <div class="glass-liquid skill-category animate-on-scroll delay-1">
-                    <div class="skill-icon">📑</div>
-                    <h3>Document Intelligence</h3>
-                    <ul class="skill-list">
-                        <li>Embedding Models</li>
-                        <li>FAISS Indexing</li>
-                        <li>Semantic Search</li>
-                        <li>Text Extraction & Analysis</li>
-                        <li>Cross-encoder Reranking</li>
-                    </ul>
+                <div class="skill-card glass scroll-reveal">
+                    <div class="skill-icon">🧠</div>
+                    <h3>Machine Learning</h3>
+                    <p>Deep understanding of ML algorithms, model training, and deployment. Experience with TensorFlow, PyTorch, scikit-learn, and building end-to-end ML pipelines for production environments.</p>
                 </div>
-
-                <div class="glass-liquid skill-category animate-on-scroll delay-2">
-                    <div class="skill-icon">⚙️</div>
-                    <h3>ML Frameworks</h3>
-                    <ul class="skill-list">
-                        <li>Hugging Face Transformers</li>
-                        <li>Sentence Transformers</li>
-                        <li>PyTorch & TensorFlow</li>
-                        <li>LangChain & LlamaIndex</li>
-                        <li>GGUF & Quantization</li>
-                    </ul>
-                </div>
-
-                <div class="glass-liquid skill-category animate-on-scroll">
-                    <div class="skill-icon">💾</div>
-                    <h3>Development</h3>
-                    <ul class="skill-list">
-                        <li>Python (Advanced)</li>
-                        <li>Flask & FastAPI</li>
-                        <li>Gradio UI Development</li>
-                        <li>REST API Architecture</li>
-                        <li>Azure Cloud Services</li>
-                    </ul>
-                </div>
-
-                <div class="glass-liquid skill-category animate-on-scroll delay-1">
+                <div class="skill-card glass scroll-reveal">
                     <div class="skill-icon">📊</div>
                     <h3>Data Engineering</h3>
-                    <ul class="skill-list">
-                        <li>Batch Processing</li>
-                        <li>Vector Databases</li>
-                        <li>Data Pipeline Design</li>
-                        <li>Performance Optimization</li>
-                        <li>Metadata Extraction</li>
-                    </ul>
+                    <p>Proficient in data preprocessing, feature engineering, and working with large-scale datasets. Expertise in pandas, NumPy, and building efficient data pipelines for ML workflows.</p>
                 </div>
-
-                <div class="glass-liquid skill-category animate-on-scroll delay-2">
-                    <div class="skill-icon">🎯</div>
-                    <h3>Specialized Areas</h3>
-                    <ul class="skill-list">
-                        <li>Hybrid Search Systems</li>
-                        <li>Model Deployment</li>
-                        <li>API Integration</li>
-                        <li>System Architecture</li>
-                        <li>Performance Tuning</li>
-                    </ul>
+                <div class="skill-card glass scroll-reveal">
+                    <div class="skill-icon">🔍</div>
+                    <h3>NLP & Search</h3>
+                    <p>Advanced natural language processing with transformers, embeddings, and semantic search. Building intelligent search systems using FAISS, vector databases, and hybrid retrieval methods.</p>
+                </div>
+                <div class="skill-card glass scroll-reveal">
+                    <div class="skill-icon">🚀</div>
+                    <h3>Model Deployment</h3>
+                    <p>Experience deploying ML models to production using Flask, FastAPI, and cloud platforms. Building scalable APIs and integrating AI solutions into real-world applications.</p>
+                </div>
+                <div class="skill-card glass scroll-reveal">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Performance Optimization</h3>
+                    <p>Optimizing model inference, implementing quantization, and improving system performance. Experience with batch processing, caching strategies, and efficient resource utilization.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title animate-on-scroll">Featured Projects</h2>
-
-            <div class="projects-grid">
-                <div class="glass-liquid project-card animate-on-scroll">
-                    <div class="project-header">
-                        <h3>RAG Document Search System</h3>
-                        <span class="project-tag">Generative AI</span>
+    <section id="projects">
+        <div class="content-section">
+            <h2 class="section-title scroll-reveal">Featured Projects</h2>
+            <div class="projects-container">
+                <div class="project-card glass scroll-reveal">
+                    <h3>RAG-Based Document Q&A System</h3>
+                    <p>Built an intelligent document question-answering system using Retrieval-Augmented Generation. Implemented multi-model embedding configurations with FAISS indexing for efficient semantic search.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">LangChain</span>
+                        <span class="tech-tag">FAISS</span>
+                        <span class="tech-tag">Azure OpenAI</span>
                     </div>
-                    <p>Advanced retrieval-augmented generation system with FAISS indexing, cross-encoder reranking, and multi-model embedding support for intelligent document search.</p>
-                    <div class="tech-stack">
-                        <span>Python</span>
-                        <span>FAISS</span>
-                        <span>Azure OpenAI</span>
-                        <span>Flask</span>
-                    </div>
-                    <a href="#" class="project-link">View Project →</a>
                 </div>
-
-                <div class="glass-liquid project-card animate-on-scroll delay-1">
-                    <div class="project-header">
-                        <h3>Embedding Configuration Manager</h3>
-                        <span class="project-tag">ML Tools</span>
+                <div class="project-card glass scroll-reveal">
+                    <h3>Semantic Search Engine</h3>
+                    <p>Developed a production-ready semantic search API with cross-encoder reranking and confidence scoring. Optimized for high-performance retrieval across large document collections.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">Sentence Transformers</span>
+                        <span class="tech-tag">Vector DB</span>
+                        <span class="tech-tag">REST API</span>
                     </div>
-                    <p>Gradio-based UI for managing multiple embedding configurations with automatic FAISS index generation and model-specific optimization.</p>
-                    <div class="tech-stack">
-                        <span>Gradio</span>
-                        <span>Sentence Transformers</span>
-                        <span>FAISS</span>
-                        <span>HuggingFace</span>
-                    </div>
-                    <a href="#" class="project-link">View Project →</a>
                 </div>
-
-                <div class="glass-liquid project-card animate-on-scroll delay-2">
-                    <div class="project-header">
-                        <h3>Local LLM Deployment Pipeline</h3>
-                        <span class="project-tag">Infrastructure</span>
+                <div class="project-card glass scroll-reveal">
+                    <h3>AI Content Summarization Tool</h3>
+                    <p>Created an automated document summarization pipeline supporting multiple file formats. Implemented batch processing with metadata extraction and customizable summary generation.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Transformers</span>
+                        <span class="tech-tag">PDF Processing</span>
+                        <span class="tech-tag">Gradio</span>
                     </div>
-                    <p>Optimized pipeline for deploying quantized local LLMs with 4-bit GGUF models, reducing hallucination and improving semantic accuracy.</p>
-                    <div class="tech-stack">
-                        <span>PyTorch</span>
-                        <span>GGUF</span>
-                        <span>Quantization</span>
-                        <span>API</span>
-                    </div>
-                    <a href="#" class="project-link">View Project →</a>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="glass-liquid animate-on-scroll" style="padding: 30px;">
-                <h2>Get In Touch</h2>
-                <p>Interested in collaboration or have a project in mind? Let's connect!</p>
-                <div class="contact-links">
-                    <a href="https://github.com/yourusername" target="_blank" class="contact-btn">
-                        <span class="icon">⚙️</span>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-btn">
-                        <span class="icon">💼</span>
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="mailto:your.email@example.com" class="contact-btn">
-                        <span class="icon">✉️</span>
-                        <span>Email</span>
-                    </a>
+                <div class="project-card glass scroll-reveal">
+                    <h3>Local LLM Deployment Framework</h3>
+                    <p>Developed an efficient framework for deploying quantized LLMs locally. Implemented 4-bit quantization and optimized inference for resource-constrained environments.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">GGUF</span>
+                        <span class="tech-tag">Quantization</span>
+                        <span class="tech-tag">Model Optimization</span>
+                        <span class="tech-tag">GPU Acceleration</span>
+                    </div>
+                </div>
+                <div class="project-card glass scroll-reveal">
+                    <h3>Embedding Configuration Manager</h3>
+                    <p>Built a comprehensive UI for managing multiple embedding model configurations. Features include dynamic config generation, FAISS index creation, and persistent storage management.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Gradio</span>
+                        <span class="tech-tag">Embeddings</span>
+                        <span class="tech-tag">Azure AI</span>
+                        <span class="tech-tag">Configuration Management</span>
+                    </div>
+                </div>
+                <div class="project-card glass scroll-reveal">
+                    <h3>Hybrid Search System</h3>
+                    <p>Implemented a hybrid search combining dense embeddings and sparse retrieval methods. Integrated cross-encoder reranking for improved relevance and accuracy.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Information Retrieval</span>
+                        <span class="tech-tag">Reranking</span>
+                        <span class="tech-tag">FAISS</span>
+                        <span class="tech-tag">Performance Tuning</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <section id="experience">
+        <div class="content-section">
+            <h2 class="section-title scroll-reveal">Experience & Journey</h2>
+            <div class="experience-timeline">
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-content glass">
+                        <h3>AI/ML Developer</h3>
+                        <p class="role">Specializing in Generative AI Solutions</p>
+                        <p>Developing cutting-edge AI solutions with focus on document processing, semantic search, and RAG systems. Built production-ready applications using Azure OpenAI, LangChain, and various embedding models.</p>
+                    </div>
+                </div>
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-content glass">
+                        <h3>Machine Learning Engineer</h3>
+                        <p class="role">Building Intelligent Search Systems</p>
+                        <p>Designed and implemented semantic search engines with FAISS indexing, cross-encoder reranking, and hybrid retrieval methods. Optimized model performance and deployed scalable API solutions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-content glass">
+                        <h3>Data Scientist</h3>
+                        <p class="role">NLP & Document Processing</p>
+                        <p>Developed NLP pipelines for document analysis, summarization, and information extraction. Worked with transformers, embeddings, and built efficient batch processing systems.</p>
+                    </div>
+                </div>
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-content glass">
+                        <h3>Python Developer</h3>
+                        <p class="role">API Development & System Integration</p>
+                        <p>Created RESTful APIs using Flask and FastAPI. Integrated various AI services, managed deployment pipelines, and ensured system reliability and performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="content-section contact-section">
+            <h2 class="section-title scroll-reveal">Let's Connect</h2>
+            <p class="scroll-reveal" style="font-size: 18px; color: var(--text-secondary); margin-bottom: 40px;">
+                Interested in collaborating on AI/ML projects or discussing generative AI solutions? Let's talk!
+            </p>
+            <div class="contact-links scroll-reveal">
+                <a href="https://github.com/yourusername" class="glass-button" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/yourusername" class="glass-button" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="mailto:your.email@example.com" class="glass-button">Email Me</a>
+                <a href="#" class="glass-button">Download Resume</a>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <div class="container">
-            <p>&copy; 2025 AI/ML Developer. Built with passion for innovation.</p>
-        </div>
+        <p>&copy; 2025 AI/ML Developer Portfolio. Crafted with passion for innovation.</p>
     </footer>
 
     <script>
-        // Theme Toggle (3-way: light, normal, dark)
-        let themeState = 0;
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        
+        function revealOnScroll() {
+            revealElements.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    setTimeout(() => {
+                        element.classList.add('active');
+                    }, index * 100);
+                }
+            });
+        }
 
-        themeToggle.addEventListener('change', () => {
-            themeState = (themeState + 1) % 3;
-
-            if (themeState === 0) {
-                body.setAttribute('data-theme', 'normal');
-                themeToggle.checked = false;
-            } else if (themeState === 1) {
-                body.setAttribute('data-theme', 'light');
-                themeToggle.checked = false;
+        // Header background on scroll
+        const header = document.getElementById('header');
+        
+        function handleScroll() {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
             } else {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.checked = true;
+                header.classList.remove('scrolled');
             }
-
-            localStorage.setItem('theme', themeState);
-        });
-
-        const savedTheme = localStorage.getItem('theme') || 0;
-        themeState = parseInt(savedTheme);
-        if (themeState === 1) {
-            body.setAttribute('data-theme', 'light');
-        } else if (themeState === 2) {
-            body.setAttribute('data-theme', 'dark');
-            themeToggle.checked = true;
+            
+            revealOnScroll();
         }
 
-        // Animated Navigation Indicator
-        const navLinks = document.querySelectorAll('.nav-links a');
-        const indicator = document.querySelector('.nav-indicator');
-
-        function moveIndicator(link) {
-            const linkRect = link.getBoundingClientRect();
-            const navRect = link.parentElement.parentElement.getBoundingClientRect();
-
-            indicator.style.width = `${linkRect.width}px`;
-            indicator.style.left = `${linkRect.left - navRect.left}px`;
-        }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-                moveIndicator(this);
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
 
-        const activeLink = document.querySelector('.nav-links a.active');
-        if (activeLink) {
-            moveIndicator(activeLink);
+        // Parallax effect for floating shapes
+        const floatingShapes = document.querySelectorAll('.floating-shape');
+        
+        function handleParallax() {
+            const scrolled = window.pageYOffset;
+            floatingShapes.forEach((shape, index) => {
+                const speed = 0.3 + (index * 0.1);
+                const yPos = -(scrolled * speed);
+                shape.style.transform = `translateY(${yPos}px)`;
+            });
         }
 
+        // Mouse move effect for liquid glass
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.glass');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+                    card.style.background = `radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)`;
+                }
+            });
+        });
+
+        // Event listeners
         window.addEventListener('scroll', () => {
-            let current = '';
-
-            const sections = document.querySelectorAll('section[id]');
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-
-                if (scrollY >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                    moveIndicator(link);
-                }
-            });
-        });
-
-        // Smooth scroll animation observer
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const animateOnScroll = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const elements = document.querySelectorAll('.animate-on-scroll');
-            elements.forEach(el => animateOnScroll.observe(el));
-
-            const liquidBg = document.querySelector('.liquid-bg');
-
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY;
-                if (liquidBg) {
-                    liquidBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-                }
-            });
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-
-                    if (target) {
-                        const offsetTop = target.offsetTop - 100;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
-            const progressBar = document.createElement('div');
-            progressBar.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 3px;
-                background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-                z-index: 9999;
-                transition: width 0.1s ease;
-            `;
-            document.body.appendChild(progressBar);
-
-            window.addEventListener('scroll', () => {
-                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (window.scrollY / windowHeight) * 100;
-                progressBar.style.width = `${scrolled}%`;
-            });
+            handleScroll();
+            handleParallax();
         });
 
         window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
+            revealOnScroll();
         });
+
+        // Initial call
+        revealOnScroll();
     </script>
 </body>
 </html>
